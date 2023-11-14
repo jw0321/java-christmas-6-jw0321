@@ -75,7 +75,7 @@ public class DiscountPolicy {
     }
 
     public void setDiscountPolicies(int visitDate) {
-
+        validateNumberInRange(visitDate);
         DayOfWeek dayOfWeek = evaluateDate(visitDate);
         determineDiscountPolicyByDate(visitDate, dayOfWeek);
     }
@@ -103,6 +103,16 @@ public class DiscountPolicy {
         if (dayOfWeek == DayOfWeek.SUNDAY || visitDate == chrismasDay) {
             discountPolicies.add(EventDiscountLogic.SPECIAL_DISCOUNT);
         }
+    }
+
+    private void validateNumberInRange(int visitDate) {
+        int minRange = 0;
+        int maxRange = 32;
+
+        if (visitDate > minRange && visitDate < maxRange) {
+            return;
+        }
+        throw new IllegalArgumentException();
     }
 
     public ArrayList<EventDiscountLogic> getDiscountPolicies() {
