@@ -1,5 +1,7 @@
 package christmas.model;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +72,37 @@ public class DiscountPolicy {
 
     public DiscountPolicy() {
         this.discountPolicies = new ArrayList<>();
+    }
+
+    public void setDiscountPolicies(int visitDate) {
+
+        DayOfWeek dayOfWeek = evaluateDate(visitDate);
+        determineDiscountPolicyByDate(visitDate, dayOfWeek);
+    }
+
+    private DayOfWeek evaluateDate(int visitDate) {
+        int year = 2023;
+        int month = 12;
+        LocalDate date = LocalDate.of(year, month, visitDate);
+        return date.getDayOfWeek();
+    }
+
+    private void determineDiscountPolicyByDate(int visitDate, DayOfWeek dayOfWeek) {
+        int endOfChrismasEvent = 26;
+        int chrismasDay = 25;
+        boolean isWeekend = (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY);
+        if (visitDate < endOfChrismasEvent) {
+            discountPolicies.add(EventDiscountLogic.CHRISMAS_DISCOUNT);
+        }
+        if (!isWeekend) {
+            discountPolicies.add(EventDiscountLogic.WEEKDAY_DISCOUNT);
+        }
+        if (isWeekend) {
+            discountPolicies.add(EventDiscountLogic.WEEKEND_DISCOUNT);
+        }
+        if (dayOfWeek == DayOfWeek.SUNDAY || visitDate == chrismasDay) {
+            discountPolicies.add(EventDiscountLogic.SPECIAL_DISCOUNT);
+        }
     }
 
     public ArrayList<EventDiscountLogic> getDiscountPolicies() {
