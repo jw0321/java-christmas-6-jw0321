@@ -122,4 +122,11 @@ public class DiscountPolicy {
         return discountDetails;
     }
 
+    public int calculateTotalDiscountAmount(Map<String, Integer> discountDetails) {
+        int totalDiscountAmount = DEFAULT_VALUE;
+        for (int discountAmount : discountDetails.values()) {
+            totalDiscountAmount += discountAmount;
+        }
+        return totalDiscountAmount;
+    }
 }
