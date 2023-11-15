@@ -13,7 +13,7 @@ public class DiscountPolicy {
     public enum EventDiscountLogic {
         CHRISMAS_DISCOUNT((order) -> {
             Map<String, Integer> benefitDetails = new HashMap<>();
-            int visitDate = order.getNumber();
+            int visitDate = order.number();
             int baseDiscount = 900;
             int discountPerDday = 100;
 
@@ -29,10 +29,10 @@ public class DiscountPolicy {
             return benefitDetails;
         }),
         WEEKDAY_DISCOUNT((order) -> {
-            if (order.getDetails().containsKey("dessert")) {
+            if (order.details().containsKey("dessert")) {
                 Map<String, Integer> benefitDetails = new HashMap<>();
                 int perDiscountAmount = 2023;
-                int quantity = order.getDetails().get("dessert");
+                int quantity = order.details().get("dessert");
 
                 int discountAmount = perDiscountAmount * quantity;
                 benefitDetails.put("평일 할인", discountAmount);
@@ -41,10 +41,10 @@ public class DiscountPolicy {
             return null;
         }),
         WEEKEND_DISCOUNT((order) -> {
-            if (order.getDetails().containsKey("mainMenu")) {
+            if (order.details().containsKey("mainMenu")) {
                 Map<String, Integer> benefitDetails = new HashMap<>();
                 int perDiscountAmount = 2023;
-                int quantity = order.getDetails().get("mainMenu");
+                int quantity = order.details().get("mainMenu");
 
                 int discountAmount = perDiscountAmount * quantity;
                 benefitDetails.put("주말 할인", discountAmount);
