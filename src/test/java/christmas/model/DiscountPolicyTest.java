@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -69,5 +70,20 @@ public class DiscountPolicyTest {
                 Arguments.of(13, 4046, "평일 할인"),
                 Arguments.of(15, 6069, "주말 할인")
         );
+    }
+
+    @DisplayName("총 할인 금액 계산 테스트")
+    @Test
+    void calculateTotalDiscountAmountTest() {
+        int visitDate = 3;
+        int expectedAmount = 6246;
+        Map<String, Integer> foodTypeOrder = Map.of("dessert", 2, "mainMenu", 1);
+        Receipt rawOrder = new Receipt(visitDate, foodTypeOrder);
+
+        discountPolicy.setDiscountPolicies(visitDate);
+        discountPolicy.createDiscountDetails(rawOrder);
+        int totalDiscountAmount = discountPolicy.calculateTotalDiscountAmount();
+
+        assertThat(totalDiscountAmount).isEqualTo(expectedAmount);
     }
 }
