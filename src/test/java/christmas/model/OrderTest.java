@@ -86,5 +86,16 @@ public class OrderTest {
         assertThat(rawOrderReceipt.details().keySet()).contains(expectedCategory);
     }
 
+    @DisplayName("최종 주문 금액 계산 테스트")
+    @Test
+    void calculateFinalOrderAmount() {
+        Map<String, Integer> inputOrder = new HashMap<>(Map.of("티본스테이크",1, "제로콜라",3));
+        int totalDiscountAmount = 10000;
+        int expectedAmount = 54000;
 
+        order.setOrder(inputOrder);
+        int finalDiscountAmount = order.calculateFinalOrderAmount(totalDiscountAmount);
+
+        assertThat(finalDiscountAmount).isEqualTo(expectedAmount);
+    }
 }
