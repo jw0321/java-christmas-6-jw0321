@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class EventBenefitTest {
@@ -40,5 +41,14 @@ public class EventBenefitTest {
         eventBenefit.setGift(inputAmount);
 
         assertThat(eventBenefit.getGiftDetails().containsKey(expectedGift)).isEqualTo(!expected);
+    }
+
+    @ParameterizedTest
+    @DisplayName("혜택 금액 별 이벤트 배지 부여 테스트")
+    @CsvSource(value = {"3000, 없음", "5000, 별", "10000, 트리", "20000, 산타"})
+    void eventBadgeTest(int input, String expected) {
+        String eventBadge = eventBenefit.determineEventBadge(input);
+
+        assertThat(eventBadge).isEqualTo(expected);
     }
 }
