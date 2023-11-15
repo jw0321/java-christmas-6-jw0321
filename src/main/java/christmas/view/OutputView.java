@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.model.Receipt;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,35 +19,29 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printOrder(Map<String, Integer> orderSheet, int rawOrderAmount) {
+    public static void printOrder(Receipt order) {
+        int rawOrderAmount = order.getNumber();
+        Map<String, Integer> orderSheet = order.getDetails();
         System.out.println("<주문 메뉴>");
 
-        for (Entry<String, Integer> order : orderSheet.entrySet()) {
-            String menu = order.getKey();
-            Integer quantity = order.getValue();
+        for (Entry<String, Integer> singleOrder : orderSheet.entrySet()) {
+            String menu = singleOrder.getKey();
+            Integer quantity = singleOrder.getValue();
             System.out.println(String.format("%s %d개", menu, quantity));
         }
         System.out.println();
 
         System.out.println("<할인 전 총주문 금액>");
-        System.out.println(String.format("%,d원",rawOrderAmount));
+        System.out.println(String.format("%,d원", rawOrderAmount));
         System.out.println();
     }
 
-    public static void printDiscountEvent(Map<String, Map<String, Integer>> eventSheet) {
-        Map<String, Integer> gifts = eventSheet.get("gift");
-        Map<String, Integer> benefitDetails = eventSheet.get("benefitDetails");
-
-        printGifts(gifts);
-        printBenefitDetails(benefitDetails);
-    }
-
-    private static void printGifts(Map<String, Integer> gifts) {
+    public static void printGifts(Map<String, Integer> gifts) {
         System.out.println("<증정 메뉴>");
-        if (gifts == null) {
+        if (gifts.isEmpty()) {
             System.out.println("없음");
         }
-        if (gifts != null) {
+        if (!gifts.isEmpty()) {
             for (Entry<String, Integer> gift : gifts.entrySet()) {
                 System.out.println(String.format("%s %d개", gift.getKey(), gift.getValue()));
             }
@@ -54,31 +49,31 @@ public class OutputView {
         System.out.println();
     }
 
-    private static void printBenefitDetails(Map<String, Integer> benefitDetails) {
+    public static void printBenefitsDetails(Map<String, Integer> benefitsDetails) {
         System.out.println("<혜택 내역>");
-        if (benefitDetails == null) {
+        if (benefitsDetails.isEmpty()) {
             System.out.println("없음");
         }
-        if (benefitDetails != null) {
-            for (Entry<String, Integer> benefitDetail : benefitDetails.entrySet()) {
+        if (!benefitsDetails.isEmpty()) {
+            for (Entry<String, Integer> benefitDetail : benefitsDetails.entrySet()) {
                 System.out.println(String.format("%s: %,d원", benefitDetail.getKey(), -benefitDetail.getValue()));
             }
         }
         System.out.println();
     }
 
-    public static void printAmount(int discountAmount, int lastPurchaseAmount) {
+    public static void printAmount(int totalBenefitAmount, int lastOrderAmount) {
         System.out.println("<총혜택 금액>");
-        if (discountAmount == 0) {
-            System.out.println(String.format("%,d원", discountAmount));
+        if (totalBenefitAmount == 0) {
+            System.out.println(String.format("%,d원", totalBenefitAmount));
         }
-        if (discountAmount != 0) {
-            System.out.println(String.format("%,d원", -discountAmount));
+        if (totalBenefitAmount != 0) {
+            System.out.println(String.format("%,d원", -totalBenefitAmount));
         }
         System.out.println();
 
         System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(String.format("%,d원", lastPurchaseAmount));
+        System.out.println(String.format("%,d원", lastOrderAmount));
         System.out.println();
     }
 
