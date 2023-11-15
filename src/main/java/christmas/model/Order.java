@@ -108,4 +108,28 @@ public class Order {
 
         return foodPrice;
     }
+
+    public Receipt getOrder() {
+        return new Receipt(calculateRawOrderAmount(), orderMenu);
+    }
+
+    public Receipt getRawOrder(int visitDate) {
+        Map<String, Integer> foodTypeOrder = new HashMap<>();
+
+        for (Entry<String, Integer> singleMenu : orderMenu.entrySet()) {
+            String foodType = findFoodType(singleMenu.getKey());
+            foodTypeOrder.put(foodType, singleMenu.getValue());
+        }
+
+        return new Receipt(visitDate, foodTypeOrder);
+    }
+
+    private String findFoodType(String menu) {
+        FoodCategory foodCategory = checkEqualFoodCategory(menu);
+
+        if (foodCategory == null) {
+            return null;
+        }
+        return foodCategory.getFoodType();
+    }
 }
