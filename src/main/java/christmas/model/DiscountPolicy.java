@@ -1,5 +1,7 @@
 package christmas.model;
 
+import static christmas.controller.OrderController.DEFAULT_VALUE;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -107,4 +109,17 @@ public class DiscountPolicy {
     public ArrayList<EventDiscountLogic> getDiscountPolicies() {
         return discountPolicies;
     }
+    public Map<String, Integer> createDiscountDetails(Receipt rawOrder) {
+        Map<String, Integer> discountDetails = new HashMap<>();
+
+        for (EventDiscountLogic discountPolicy : discountPolicies) {
+            Map<String, Integer> singleDiscountDetail = discountPolicy.calculateDiscount(rawOrder);
+
+            if (singleDiscountDetail != null) {
+                discountDetails.putAll(singleDiscountDetail);
+            }
+        }
+        return discountDetails;
+    }
+
 }
