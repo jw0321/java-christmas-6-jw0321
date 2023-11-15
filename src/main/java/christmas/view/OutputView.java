@@ -20,8 +20,8 @@ public class OutputView {
     }
 
     public static void printOrder(Receipt order) {
-        int rawOrderAmount = order.getNumber();
-        Map<String, Integer> orderSheet = order.getDetails();
+        int rawOrderAmount = order.number();
+        Map<String, Integer> orderSheet = order.details();
         System.out.println("<주문 메뉴>");
 
         for (Entry<String, Integer> singleOrder : orderSheet.entrySet()) {
