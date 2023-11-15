@@ -132,4 +132,8 @@ public class Order {
         }
         return foodCategory.getFoodType();
     }
+
+    public int calculateFinalOrderAmount(int totalDiscountAmount) {
+        return calculateRawOrderAmount() - totalDiscountAmount;
+    }
 }
