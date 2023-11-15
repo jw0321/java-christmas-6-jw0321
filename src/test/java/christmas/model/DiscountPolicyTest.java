@@ -49,4 +49,25 @@ public class DiscountPolicyTest {
         );
     }
 
+    @ParameterizedTest
+    @DisplayName("정책별 할인 금액 계산 테스트")
+    @MethodSource("discountAmountDateProvider")
+    void discountAmountTest(int visitDate, int expectedAmount, String expectName) {
+        Map<String, Integer> foodTypeOrder = Map.of("dessert", 2, "mainMenu", 3);
+        Receipt rawOrder = new Receipt(visitDate, foodTypeOrder);
+
+        discountPolicy.setDiscountPolicies(visitDate);
+        Map<String, Integer> discountDetails = discountPolicy.createDiscountDetails(rawOrder);
+
+        assertThat(discountDetails.get(expectName)).isEqualTo(expectedAmount);
+    }
+
+    private static Stream<Arguments> discountAmountDateProvider() {
+        return Stream.of(
+                Arguments.of(10, 1900, "크리스마스 디데이 할인"),
+                Arguments.of(25, 1000, "특별 할인"),
+                Arguments.of(13, 4046, "평일 할인"),
+                Arguments.of(15, 6069, "주말 할인")
+        );
+    }
 }
