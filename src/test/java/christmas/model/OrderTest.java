@@ -73,4 +73,18 @@ public class OrderTest {
         assertThat(orderReceipt.details().keySet()).contains(expectedMenu);
     }
 
+    @DisplayName("메뉴 종류 구분 테스트")
+    @Test
+    void getRawOrderReceiptTest() {
+        Map<String, Integer> inputOrder = new HashMap<>(Map.of("티본스테이크",1, "제로콜라",3));
+        int visitDate = 10;
+        String expectedCategory = "mainMenu";
+
+        order.setOrder(inputOrder);
+        Receipt rawOrderReceipt = order.getRawOrderReceipt(visitDate);
+
+        assertThat(rawOrderReceipt.details().keySet()).contains(expectedCategory);
+    }
+
+
 }
