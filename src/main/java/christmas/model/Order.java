@@ -40,8 +40,8 @@ public class Order {
 
     public void setOrder(Map<String, Integer> inputOrder) {
         checkOrderMenu(inputOrder);
+        checkOnlyBeverageMenu(inputOrder);
         this.orderMenu.putAll(inputOrder);
-        checkOnlyBeverageMenu();
     }
 
     private void checkOrderMenu(Map<String, Integer> inputOrder) {
@@ -86,8 +86,8 @@ public class Order {
         return null;
     }
 
-    private void checkOnlyBeverageMenu() {
-        Map<String,Integer> foodTypeOrder = createFoodTypeOrder();
+    private void checkOnlyBeverageMenu(Map<String, Integer> inputMenu) {
+        Map<String,Integer> foodTypeOrder = createFoodTypeOrder(inputMenu);
         if (foodTypeOrder.keySet().size() == 1 && foodTypeOrder.containsKey("beverage")) {
             throw new IllegalArgumentException(INVALID_INPUT_MENU);
         }
@@ -121,13 +121,13 @@ public class Order {
     }
 
     public Receipt getRawOrderReceipt(int visitDate) {
-        Map<String, Integer> foodTypeOrder = createFoodTypeOrder();
+        Map<String, Integer> foodTypeOrder = createFoodTypeOrder(orderMenu);
         return new Receipt(visitDate, foodTypeOrder);
     }
-    private Map<String, Integer> createFoodTypeOrder() {
+    private Map<String, Integer> createFoodTypeOrder(Map<String, Integer> inputOrder) {
         Map<String, Integer> foodTypeOrder = new HashMap<>();
 
-        for (Entry<String, Integer> singleMenu : orderMenu.entrySet()) {
+        for (Entry<String, Integer> singleMenu : inputOrder.entrySet()) {
             String foodType = findFoodType(singleMenu.getKey());
             foodTypeOrder.put(foodType, singleMenu.getValue());
         }
