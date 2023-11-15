@@ -59,4 +59,18 @@ public class OrderTest {
         assertThat(rawOrderAmount).isEqualTo(expectedAmount);
     }
 
+    @DisplayName("주문 정보 전달 테스트")
+    @Test
+    void getOrderReceiptTest() {
+        Map<String, Integer> inputOrder = new HashMap<>(Map.of("티본스테이크",1, "제로콜라",3));
+        int expectedAmount = 64000;
+        String expectedMenu = "티본스테이크";
+
+        order.setOrder(inputOrder);
+        Receipt orderReceipt = order.getOrderReceipt();
+
+        assertThat(orderReceipt.number()).isEqualTo(expectedAmount);
+        assertThat(orderReceipt.details().keySet()).contains(expectedMenu);
+    }
+
 }
