@@ -2,6 +2,8 @@ package christmas.model;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,5 +52,24 @@ public class EventBenefitTest {
         String eventBadge = eventBenefit.determineEventBadge(input);
 
         assertThat(eventBadge).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @DisplayName("할인 상세 정보 반환 테스트")
+    @MethodSource("createBenefitsDetailsDataProvider")
+    void createBenefitsDetailsTest(int rawOrderAmount, boolean expected) {
+        eventBenefit.setGift(rawOrderAmount);
+        Map<String, Integer> discountDetails = new HashMap<>();
+        discountDetails.put("특별 할인:", 1000);
+
+        Map<String, Integer> benefitsDetails = eventBenefit.createBenefitsDetails(discountDetails);
+
+        assertThat(benefitsDetails.containsKey("증정 이벤트:")).isEqualTo(expected);
+    }
+    private static Stream<Arguments> createBenefitsDetailsDataProvider() {
+        return Stream.of(
+                Arguments.of(60000, false),
+                Arguments.of(120000, true)
+        );
     }
 }
