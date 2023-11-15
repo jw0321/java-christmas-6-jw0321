@@ -109,11 +109,11 @@ public class Order {
         return foodPrice;
     }
 
-    public Receipt getOrder() {
+    public Receipt getOrderReceipt() {
         return new Receipt(calculateRawOrderAmount(), orderMenu);
     }
 
-    public Receipt getRawOrder(int visitDate) {
+    public Receipt getRawOrderReceipt(int visitDate) {
         Map<String, Integer> foodTypeOrder = new HashMap<>();
 
         for (Entry<String, Integer> singleMenu : orderMenu.entrySet()) {
