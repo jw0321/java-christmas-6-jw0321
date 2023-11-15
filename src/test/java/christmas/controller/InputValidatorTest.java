@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Map;
 import java.util.stream.Stream;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,7 +15,7 @@ public class InputValidatorTest {
 
     @ParameterizedTest
     @DisplayName("날짜 입력 검증 예외")
-    @ValueSource(strings = {"", " ", "ab", "-1", "!"})
+    @ValueSource(strings = {"", "  ", "ab", "-1", "!"})
     void validateNumberTest(String input) {
         assertThatThrownBy(() -> InputValidator.validateNumber(input))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -27,6 +27,14 @@ public class InputValidatorTest {
     void checkNumberInRangeTest(int input) {
     assertThatThrownBy(() -> InputValidator.checkNumberInRange(input))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @DisplayName("입력 메뉴 공백 예외")
+    @ValueSource(strings = {"", " "})
+    void checkInputOrderEmptyTest(String input) {
+        assertThatThrownBy(() -> InputValidator.checkInputOrderEmpty(input))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
