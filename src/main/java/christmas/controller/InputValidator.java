@@ -45,4 +45,34 @@ public class InputValidator {
         throw new IllegalArgumentException();
     }
 
+    public static void validateOrder(Map<String, Integer> separatedOrder, String[] keyValue) {
+        checkInputFormat(keyValue);
+        checkDuplicatedInput(separatedOrder, keyValue);
+        checkQuantityNumeric(keyValue[1]);
+
+    }
+
+    public static void checkQuantityNumeric(String input) {
+        if (!input.matches("\\d+")) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
+    private static void checkInputFormat(String[] keyValue) {
+        if (keyValue.length != 2) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
+    private static void checkDuplicatedInput(Map<String, Integer> separatedOrder, String[] keyValue) {
+        if (separatedOrder.containsKey(keyValue[0])) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
+    public static void checkInputQuantityEmpty(String input) {
+        if (input.isBlank()) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
 }
