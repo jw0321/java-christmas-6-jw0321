@@ -85,4 +85,27 @@ public class Order {
         }
         return null;
     }
+
+    public int calculateRawOrderAmount() {
+        int amount = DEFAULT_VALUE;
+        for (Entry<String, Integer> singleOrder : orderMenu.entrySet()) {
+            String menu = singleOrder.getKey();
+            int quantity = singleOrder.getValue();
+            int foodPrice = findFoodPrice(menu);
+
+            amount += foodPrice * quantity;
+        }
+        return amount;
+    }
+
+    private int findFoodPrice(String menu) {
+        int foodPrice = DEFAULT_VALUE;
+        FoodCategory foodCategory = checkEqualFoodCategory(menu);
+
+        if (foodCategory != null) {
+            foodPrice = foodCategory.getFoodMenu().get(menu);
+        }
+
+        return foodPrice;
+    }
 }
