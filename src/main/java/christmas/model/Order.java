@@ -41,13 +41,13 @@ public class Order {
     public void setOrder(Map<String, Integer> inputOrder) {
         checkOrderMenu(inputOrder);
         this.orderMenu.putAll(inputOrder);
+        checkOnlyBeverageMenu();
     }
 
     private void checkOrderMenu(Map<String, Integer> inputOrder) {
         for (String inputMenu : inputOrder.keySet()) {
             validateMenuInCategory(inputMenu);
         }
-
         int totalQuantity = DEFAULT_VALUE;
         for (int inputQuantity : inputOrder.values()) {
             validateQuantityInRange(inputQuantity);
@@ -86,6 +86,13 @@ public class Order {
         return null;
     }
 
+    private void checkOnlyBeverageMenu() {
+        Map<String,Integer> foodTypeOrder = createFoodTypeOrder();
+        if (foodTypeOrder.keySet().size() == 1 && foodTypeOrder.containsKey("beverage")) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
     public int calculateRawOrderAmount() {
         int amount = DEFAULT_VALUE;
         for (Entry<String, Integer> singleOrder : orderMenu.entrySet()) {
@@ -114,14 +121,17 @@ public class Order {
     }
 
     public Receipt getRawOrderReceipt(int visitDate) {
+        Map<String, Integer> foodTypeOrder = createFoodTypeOrder();
+        return new Receipt(visitDate, foodTypeOrder);
+    }
+    private Map<String, Integer> createFoodTypeOrder() {
         Map<String, Integer> foodTypeOrder = new HashMap<>();
 
         for (Entry<String, Integer> singleMenu : orderMenu.entrySet()) {
             String foodType = findFoodType(singleMenu.getKey());
             foodTypeOrder.put(foodType, singleMenu.getValue());
         }
-
-        return new Receipt(visitDate, foodTypeOrder);
+        return foodTypeOrder;
     }
 
     private String findFoodType(String menu) {
