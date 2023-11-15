@@ -43,7 +43,8 @@ public class OrderTest {
                 Arguments.of(Map.of("갈릭스테이크",1)),
                 Arguments.of(Map.of("티본스테이크", -1)),
                 Arguments.of(Map.of("티본스테이크", 21)),
-                Arguments.of(Map.of("티본스테이크", 10, "제로콜라", 15))
+                Arguments.of(Map.of("티본스테이크", 10, "제로콜라", 15)),
+                Arguments.of(Map.of("제로콜라", 10))
         );
     }
 
