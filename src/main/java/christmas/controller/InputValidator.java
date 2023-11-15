@@ -13,7 +13,7 @@ public class InputValidator {
     public static void validateNumber(String input) {
         checkInputDateEmpty(input);
         checkForWhiteSpace(input);
-        checkDateNumeric(input);
+        checkDateNumber(input);
     }
 
 
@@ -29,7 +29,7 @@ public class InputValidator {
         }
     }
 
-    private static void checkDateNumeric(String input) {
+    private static void checkDateNumber(String input) {
         if (!input.matches("\\d+")) {
             throw new IllegalArgumentException(INVALID_INPUT_DATE);
         }
@@ -45,17 +45,17 @@ public class InputValidator {
         throw new IllegalArgumentException();
     }
 
+    public static void checkInputOrderEmpty(String input) {
+        if (input.isBlank()) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
     public static void validateOrder(Map<String, Integer> separatedOrder, String[] keyValue) {
         checkInputFormat(keyValue);
         checkDuplicatedInput(separatedOrder, keyValue);
-        checkQuantityNumeric(keyValue[1]);
-
-    }
-
-    public static void checkQuantityNumeric(String input) {
-        if (!input.matches("\\d+")) {
-            throw new IllegalArgumentException(INVALID_INPUT_MENU);
-        }
+        checkMenuLetter(keyValue[0]);
+        checkQuantityNumber(keyValue[1]);
     }
 
     private static void checkInputFormat(String[] keyValue) {
@@ -70,9 +70,16 @@ public class InputValidator {
         }
     }
 
-    public static void checkInputQuantityEmpty(String input) {
-        if (input.isBlank()) {
+    private static void checkMenuLetter(String input) {
+        if (!input.matches("\\w+")) {
             throw new IllegalArgumentException(INVALID_INPUT_MENU);
         }
     }
+
+    private static void checkQuantityNumber(String input) {
+        if (!input.matches("\\d+")) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
 }
