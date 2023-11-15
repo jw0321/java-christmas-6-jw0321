@@ -72,4 +72,20 @@ public class EventBenefitTest {
                 Arguments.of(120000, true)
         );
     }
+
+    @ParameterizedTest
+    @DisplayName("총 혜택 금액 계산 테스트")
+    @MethodSource("calculateTotalBenefitAmountDataProvider")
+    void calculateTotalBenefitAmount(int totalDiscountAmount, int expectedBenefitAmount, int rawOrderAmount) {
+        eventBenefit.setGift(rawOrderAmount);
+        int totalBenefitAmount = eventBenefit.calculateTotalBenefitAmount(totalDiscountAmount);
+
+        assertThat(totalBenefitAmount).isEqualTo(expectedBenefitAmount);
+    }
+    private static Stream<Arguments>calculateTotalBenefitAmountDataProvider() {
+        return Stream.of(
+                Arguments.of(10000, 35000, 120000),
+                Arguments.of(10000, 10000, 60000)
+        );
+    }
 }
