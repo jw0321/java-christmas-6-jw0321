@@ -35,7 +35,7 @@ public class InputValidator {
         if (visitDate >= firstDate && visitDate <= lastDate) {
             return;
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(INVALID_INPUT_DATE);
     }
 
     public static void checkInputOrderEmpty(String input) {
