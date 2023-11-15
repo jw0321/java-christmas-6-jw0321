@@ -53,4 +53,14 @@ public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 �
         }
         return discountDetails;
     }
+
+    public int calculateTotalBenefitAmount(int totalDiscountAmount) {
+        int totalBenefitAmount;
+        if (gift.containsKey(GIFT_MENU)) {
+            totalBenefitAmount = gift.get(GIFT_MENU) + totalDiscountAmount;
+            return totalBenefitAmount;
+        }
+        totalBenefitAmount = totalDiscountAmount;
+        return totalBenefitAmount;
+    }
 }
