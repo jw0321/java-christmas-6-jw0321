@@ -39,8 +39,50 @@ public class Order {
     }
 
     public void setOrder(Map<String, Integer> inputOrder) {
-
+        checkOrderMenu(inputOrder);
         this.orderMenu.putAll(inputOrder);
     }
 
+    private void checkOrderMenu(Map<String, Integer> inputOrder) {
+        for (String inputMenu : inputOrder.keySet()) {
+            validateMenuInCategory(inputMenu);
+        }
+
+        int totalQuantity = DEFAULT_VALUE;
+        for (int inputQuantity : inputOrder.values()) {
+            validateQuantityInRange(inputQuantity);
+            totalQuantity += inputQuantity;
+        }
+        validateTotalQuantityInRange(totalQuantity);
+    }
+
+    private void validateMenuInCategory(String input) {
+        FoodCategory foodCategory = checkEqualFoodCategory(input);
+        if (foodCategory == null) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
+    private void validateQuantityInRange(int inputQuantity) {
+        final int minimumOrderQuantity = 1;
+        if (inputQuantity < minimumOrderQuantity) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+    private void validateTotalQuantityInRange(int totalQuantity) {
+        final int minimumTotalOrderQuantity = 1;
+        final int maximumTotalOrderQuantity = 20;
+        if (totalQuantity < minimumTotalOrderQuantity || totalQuantity > maximumTotalOrderQuantity) {
+            throw new IllegalArgumentException(INVALID_INPUT_MENU);
+        }
+    }
+
+    private FoodCategory checkEqualFoodCategory(String menu) {
+        for (FoodCategory foodCategory : FoodCategory.values()) {
+            if (foodCategory.getFoodMenu().containsKey(menu)) {
+                return foodCategory;
+            }
+        }
+        return null;
+    }
 }
