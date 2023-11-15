@@ -46,4 +46,17 @@ public class OrderTest {
                 Arguments.of(Map.of("티본스테이크", 10, "제로콜라", 15))
         );
     }
+
+    @DisplayName("총 주문 금액 계산 테스트")
+    @Test
+    void calculateRawOrderAmount() {
+        Map<String, Integer> inputOrder = new HashMap<>(Map.of("티본스테이크",1, "제로콜라",3));
+        int expectedAmount = 64000;
+
+        order.setOrder(inputOrder);
+        int rawOrderAmount = order.calculateRawOrderAmount();
+
+        assertThat(rawOrderAmount).isEqualTo(expectedAmount);
+    }
+
 }
