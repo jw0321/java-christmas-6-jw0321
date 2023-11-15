@@ -4,7 +4,7 @@ import christmas.model.Order.FoodCategory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 처리
+public class EventBenefit {
 
     private final String GIFT_MENU = "샴페인";
     private final Map<String, Integer> gift;
@@ -24,29 +24,33 @@ public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 �
     public Map<String, Integer> getGiftDetails() {
         Map<String, Integer> giftReceipt = new HashMap<>();
         int quantity = 1;
+        if (!gift.isEmpty()) {
+            giftReceipt.put(GIFT_MENU, quantity);
 
-        giftReceipt.put(GIFT_MENU, quantity);
-
+            return giftReceipt;
+        }
         return giftReceipt;
     }
 
     public String determineEventBadge(int totalBenefitAmount) {
-
-        if (totalBenefitAmount >= 5000 && totalBenefitAmount < 10000) {
+        final int starBadgeAmount = 5000;
+        final int treeBadgeAmount = 10000;
+        final int santaBadgeAmount = 20000;
+        if (totalBenefitAmount < starBadgeAmount) {
+            return "없음";
+        }
+        if (totalBenefitAmount < treeBadgeAmount) {
             return "별";
         }
-        if (totalBenefitAmount >= 10000 && totalBenefitAmount < 20000) {
+        if (totalBenefitAmount < santaBadgeAmount) {
             return "트리";
         }
-        if (totalBenefitAmount >= 20000) {
-            return "산타";
-        }
-        return null;
+        return "산타";
     }
 
     public Map<String, Integer> createBenefitsDetails(Map<String, Integer> discountDetails) {
         Map<String, Integer> benefitsDetails = new HashMap<>(discountDetails);
-        if (gift.containsKey(GIFT_MENU)) {
+        if (!gift.isEmpty()) {
             String giftReceipt = "증정 이벤트:";
             benefitsDetails.put(giftReceipt, FoodCategory.BEVERAGE.getFoodMenu().get(GIFT_MENU));
             return benefitsDetails;
@@ -56,7 +60,7 @@ public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 �
 
     public int calculateTotalBenefitAmount(int totalDiscountAmount) {
         int totalBenefitAmount;
-        if (gift.containsKey(GIFT_MENU)) {
+        if (!gift.isEmpty()) {
             totalBenefitAmount = gift.get(GIFT_MENU) + totalDiscountAmount;
             return totalBenefitAmount;
         }
