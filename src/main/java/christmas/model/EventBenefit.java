@@ -30,4 +30,18 @@ public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 �
         return giftReceipt;
     }
 
+    public String determineEventBadge(int totalBenefitAmount) {
+
+        if (totalBenefitAmount >= 5000 && totalBenefitAmount < 10000) {
+            return "별";
+        }
+        if (totalBenefitAmount >= 10000 && totalBenefitAmount < 20000) {
+            return "트리";
+        }
+        if (totalBenefitAmount >= 20000) {
+            return "산타";
+        }
+        return null;
+    }
+
 }
