@@ -32,4 +32,13 @@ public class EventBenefitTest {
         );
     }
 
+    @ParameterizedTest
+    @DisplayName("증정 내역 작성 테스트")
+    @MethodSource("setGiftDataProvider")
+    void getGiftDetailsTest(int inputAmount, boolean expected) {
+        final String expectedGift= "샴페인";
+        eventBenefit.setGift(inputAmount);
+
+        assertThat(eventBenefit.getGiftDetails().containsKey(expectedGift)).isEqualTo(!expected);
+    }
 }
