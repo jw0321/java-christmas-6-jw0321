@@ -27,13 +27,6 @@ public class EventBenefitTest {
 
         assertThat(eventBenefit.getGiftDetails().isEmpty()).isEqualTo(expected);
     }
-    private static Stream<Arguments> setGiftDataProvider() {
-        return Stream.of(
-                Arguments.of(50000, true),
-                Arguments.of(120000, false),
-                Arguments.of(200000, false)
-        );
-    }
 
     @ParameterizedTest
     @DisplayName("증정 내역 작성 테스트")
@@ -43,6 +36,14 @@ public class EventBenefitTest {
         eventBenefit.setGift(inputAmount);
 
         assertThat(eventBenefit.getGiftDetails().containsKey(expectedGift)).isEqualTo(!expected);
+    }
+
+    private static Stream<Arguments> setGiftDataProvider() {
+        return Stream.of(
+                Arguments.of(50000, true),
+                Arguments.of(120000, false),
+                Arguments.of(200000, false)
+        );
     }
 
     @ParameterizedTest
