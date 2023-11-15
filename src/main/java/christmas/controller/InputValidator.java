@@ -71,7 +71,7 @@ public class InputValidator {
     }
 
     private static void checkMenuLetter(String input) {
-        if (!input.matches("\\w+")) {
+        if (input.matches("\\d+")) {
             throw new IllegalArgumentException(INVALID_INPUT_MENU);
         }
     }
