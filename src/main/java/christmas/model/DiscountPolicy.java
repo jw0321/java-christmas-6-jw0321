@@ -70,12 +70,15 @@ public class DiscountPolicy {
         }
     }
 
-    private final ArrayList<EventDiscountLogic> discountPolicies;
     private final int END_OF_CHRISMAS_EVENT = 26;
     private final int CHRISMASDAY = 25;
+    private final ArrayList<EventDiscountLogic> discountPolicies;
+    private final Map<String, Integer> discountDetails;
+
 
     public DiscountPolicy() {
         this.discountPolicies = new ArrayList<>();
+        this.discountDetails = new HashMap<>();
     }
 
     public void setDiscountPolicies(int visitDate) {
@@ -110,8 +113,6 @@ public class DiscountPolicy {
         return discountPolicies;
     }
     public Map<String, Integer> createDiscountDetails(Receipt rawOrder) {
-        Map<String, Integer> discountDetails = new HashMap<>();
-
         for (EventDiscountLogic discountPolicy : discountPolicies) {
             Map<String, Integer> singleDiscountDetail = discountPolicy.calculateDiscount(rawOrder);
 
@@ -122,7 +123,7 @@ public class DiscountPolicy {
         return discountDetails;
     }
 
-    public int calculateTotalDiscountAmount(Map<String, Integer> discountDetails) {
+    public int calculateTotalDiscountAmount() {
         int totalDiscountAmount = DEFAULT_VALUE;
         for (int discountAmount : discountDetails.values()) {
             totalDiscountAmount += discountAmount;
