@@ -112,7 +112,11 @@ public class DiscountPolicy {
     public ArrayList<EventDiscountLogic> getDiscountPolicies() {
         return discountPolicies;
     }
-    public Map<String, Integer> createDiscountDetails(Receipt rawOrder) {
+    public Map<String, Integer> createDiscountDetails(Receipt rawOrder, int rawOrderAmount) {
+        final int minimumEventAmount = 10000;
+        if (rawOrderAmount < minimumEventAmount) {
+            return discountDetails;
+        }
         for (EventDiscountLogic discountPolicy : discountPolicies) {
             Map<String, Integer> singleDiscountDetail = discountPolicy.calculateDiscount(rawOrder);
 
