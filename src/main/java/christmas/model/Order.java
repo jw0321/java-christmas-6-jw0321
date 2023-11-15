@@ -32,4 +32,15 @@ public class Order {
         }
     }
 
+    private final Map<String, Integer> orderMenu;
+
+    public Order() {
+        this.orderMenu = new HashMap<>();
+    }
+
+    public void setOrder(Map<String, Integer> inputOrder) {
+
+        this.orderMenu.putAll(inputOrder);
+    }
+
 }
