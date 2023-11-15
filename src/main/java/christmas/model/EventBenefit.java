@@ -44,4 +44,13 @@ public class EventBenefit { //이벤트 배지 부여 및 증정 메뉴 로직 �
         return null;
     }
 
+    public Map<String, Integer> createBenefitsDetails(Map<String, Integer> discountDetails) {
+        Map<String, Integer> benefitsDetails = new HashMap<>(discountDetails);
+        if (gift.containsKey(GIFT_MENU)) {
+            String giftReceipt = "증정 이벤트:";
+            benefitsDetails.put(giftReceipt, FoodCategory.BEVERAGE.getFoodMenu().get(GIFT_MENU));
+            return benefitsDetails;
+        }
+        return discountDetails;
+    }
 }
