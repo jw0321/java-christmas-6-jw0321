@@ -69,15 +69,16 @@ public class DiscountPolicy {
     }
 
     private final ArrayList<EventDiscountLogic> discountPolicies;
+    private final int END_OF_CHRISMAS_EVENT = 26;
+    private final int CHRISMASDAY = 25;
 
     public DiscountPolicy() {
         this.discountPolicies = new ArrayList<>();
     }
 
     public void setDiscountPolicies(int visitDate) {
-        validateNumberInRange(visitDate);
         DayOfWeek dayOfWeek = evaluateDate(visitDate);
-        determineDiscountPolicyByDate(visitDate, dayOfWeek);
+        addDiscountPolicyByDate(visitDate, dayOfWeek);
     }
 
     private DayOfWeek evaluateDate(int visitDate) {
@@ -87,11 +88,9 @@ public class DiscountPolicy {
         return date.getDayOfWeek();
     }
 
-    private void determineDiscountPolicyByDate(int visitDate, DayOfWeek dayOfWeek) {
-        int endOfChrismasEvent = 26;
-        int chrismasDay = 25;
+    private void addDiscountPolicyByDate(int visitDate, DayOfWeek dayOfWeek) {
         boolean isWeekend = (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY);
-        if (visitDate < endOfChrismasEvent) {
+        if (visitDate < END_OF_CHRISMAS_EVENT) {
             discountPolicies.add(EventDiscountLogic.CHRISMAS_DISCOUNT);
         }
         if (!isWeekend) {
@@ -100,19 +99,9 @@ public class DiscountPolicy {
         if (isWeekend) {
             discountPolicies.add(EventDiscountLogic.WEEKEND_DISCOUNT);
         }
-        if (dayOfWeek == DayOfWeek.SUNDAY || visitDate == chrismasDay) {
+        if (dayOfWeek == DayOfWeek.SUNDAY || visitDate == CHRISMASDAY) {
             discountPolicies.add(EventDiscountLogic.SPECIAL_DISCOUNT);
         }
-    }
-
-    private void validateNumberInRange(int visitDate) {
-        int minRange = 0;
-        int maxRange = 32;
-
-        if (visitDate > minRange && visitDate < maxRange) {
-            return;
-        }
-        throw new IllegalArgumentException();
     }
 
     public ArrayList<EventDiscountLogic> getDiscountPolicies() {
