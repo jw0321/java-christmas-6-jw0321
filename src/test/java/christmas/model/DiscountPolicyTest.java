@@ -19,7 +19,7 @@ public class DiscountPolicyTest {
 
     @BeforeEach
     void setUp() {
-        discountPolicy = new DiscountPolicy();
+        this.discountPolicy = new DiscountPolicy();
     }
 
     @ParameterizedTest
