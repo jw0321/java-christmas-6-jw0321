@@ -12,19 +12,12 @@ public class InputValidator {
 
     public static void validateNumber(String input) {
         checkInputDateEmpty(input);
-        checkForWhiteSpace(input);
         checkDateNumber(input);
     }
 
 
     private static void checkInputDateEmpty(String input) {
         if (input.isBlank()) {
-            throw new IllegalArgumentException(INVALID_INPUT_DATE);
-        }
-    }
-
-    private static void checkForWhiteSpace(String input) {
-        if (input.contains(" ")) {
             throw new IllegalArgumentException(INVALID_INPUT_DATE);
         }
     }
