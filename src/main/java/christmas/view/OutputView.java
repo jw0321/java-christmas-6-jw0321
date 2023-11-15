@@ -62,7 +62,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printAmount(int totalBenefitAmount, int lastOrderAmount) {
+    public static void printAmount(int totalBenefitAmount, int finalOrderAmount) {
         System.out.println("<총혜택 금액>");
         if (totalBenefitAmount == 0) {
             System.out.println(String.format("%,d원", totalBenefitAmount));
@@ -73,7 +73,7 @@ public class OutputView {
         System.out.println();
 
         System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(String.format("%,d원", lastOrderAmount));
+        System.out.println(String.format("%,d원", finalOrderAmount));
         System.out.println();
     }
 
