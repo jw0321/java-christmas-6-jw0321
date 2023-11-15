@@ -50,15 +50,31 @@ public class DiscountPolicyTest {
         );
     }
 
+    @DisplayName("최소 이벤트 금액 미만일 경우 이벤트 적용 X")
+    @Test
+    void createDiscountDetailsTest() {
+        int visitDate = 3;
+        int rawOrderAmount = 5000;
+        int expectedSize = 0;
+        Map<String, Integer> foodTypeOrder = Map.of("dessert", 2, "mainMenu", 1);
+        Receipt rawOrder = new Receipt(visitDate, foodTypeOrder);
+
+        discountPolicy.setDiscountPolicies(visitDate);
+        Map<String,Integer> discountDetails= discountPolicy.createDiscountDetails(rawOrder, rawOrderAmount);
+
+        assertThat(discountDetails.size()).isEqualTo(expectedSize);
+    }
+
     @ParameterizedTest
     @DisplayName("정책별 할인 금액 계산 테스트")
     @MethodSource("discountAmountDateProvider")
     void discountAmountTest(int visitDate, int expectedAmount, String expectName) {
         Map<String, Integer> foodTypeOrder = Map.of("dessert", 2, "mainMenu", 3);
         Receipt rawOrder = new Receipt(visitDate, foodTypeOrder);
+        int rawOrderAmount = 10000;
 
         discountPolicy.setDiscountPolicies(visitDate);
-        Map<String, Integer> discountDetails = discountPolicy.createDiscountDetails(rawOrder);
+        Map<String, Integer> discountDetails = discountPolicy.createDiscountDetails(rawOrder, rawOrderAmount);
 
         assertThat(discountDetails.get(expectName)).isEqualTo(expectedAmount);
     }
@@ -77,11 +93,12 @@ public class DiscountPolicyTest {
     void calculateTotalDiscountAmountTest() {
         int visitDate = 3;
         int expectedAmount = 6246;
+        int rawOrderAmount = 10000;
         Map<String, Integer> foodTypeOrder = Map.of("dessert", 2, "mainMenu", 1);
         Receipt rawOrder = new Receipt(visitDate, foodTypeOrder);
 
         discountPolicy.setDiscountPolicies(visitDate);
-        discountPolicy.createDiscountDetails(rawOrder);
+        discountPolicy.createDiscountDetails(rawOrder, rawOrderAmount);
         int totalDiscountAmount = discountPolicy.calculateTotalDiscountAmount();
 
         assertThat(totalDiscountAmount).isEqualTo(expectedAmount);
